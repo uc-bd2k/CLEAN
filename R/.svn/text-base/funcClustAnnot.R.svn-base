@@ -1,0 +1,36 @@
+`funcClustAnnot` <-
+function(data = NULL, 
+		rclust = NULL, 
+		cclust = NULL, 
+		funcCategories = NULL, 
+		fClustAnnotations = NULL,
+		bkgList = NULL,
+		file = "cluster", 
+		maxSize=1000, 
+		minSize=10, 
+		minGenesInCategory=10,
+		maxGenesInCategory=1000,
+		minSigsInCategory=2,
+		inBkg=TRUE,
+		sigFDR = 0.1,
+		addCLEANscore2cdt = TRUE,
+		species = NULL,
+		estimateNullDistribution = FALSE,
+		atr.distance="euc",
+		gtr.distance="euc",
+		dec='.',
+		digits=5,
+		verbose=TRUE, 
+		saveDataObjects = FALSE,
+		sampleDesc = NULL,
+		callTreeView = FALSE) {
+	warning("funcClustAnnot() is deprecated.  Please use generateTreeViewFiles() or runCLEAN() instead")
+	generateTreeViewFiles(data = data, rclust = rclust, cclust = cclust, functionalCategories = funcCategories,
+		fClustAnnotations = fClustAnnotations, bkgList = bkgList, file = file, maxSize = maxSize, minSize=minSize,
+		minGenesInCategory = minGenesInCategory, maxGenesInCategory = maxGenesInCategory, 
+		inBkg = inBkg, sigFDR = sigFDR, addCLEANscore2cdt = addCLEANscore2cdt,
+		species = species, estimateNullDistribution = estimateNullDistribution, dec=dec, 
+		verbose = verbose, saveDataObjects = saveDataObjects,
+		sampleDesc = sampleDesc, callTreeView = callTreeView)
+}
+

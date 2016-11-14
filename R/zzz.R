@@ -1,0 +1,9 @@
+#`.First.lib` <-
+`.onLoad` <-
+function(lib, pkg)
+{
+    #.fTreeViewPath <- paste(.Library, "/CLEAN/doc/", sep = "")
+    .fTreeViewPath <- paste(system.file(package = "CLEAN"), "/doc/", sep = "")
+    assign(".fTreeViewPath", paste(.Library, "/CLEAN/doc/", sep = ""), envir = sys.frame())
+}
+

@@ -1,0 +1,33 @@
+\name{annotateChipSeqPeaks}
+\alias{annotateChipSeqPeaks}
+\title{Function to match each peaks to associated genes in terms of RefID}
+\description{
+  This function is intended to search all peaks within up and down distances for each gene. Users could specify their own platforms or the function will download platform from UCSC as default.
+}
+\usage{
+annotateChipSeqPeaks(chip.seq,transcriptDB = NULL, species = "Hs", distanceRange = c(-1e+06,1e+06), file = NULL)
+}
+\arguments{
+  \item{chip.seq}{ A matrix list all CHIP-Seq peaks in which the chromosome ID for all peaks are listed in the first column, peaks' start positions are listed in the second column, peaks' end position are listed in the third column, peaks' ID are listed in the forth column and the fifth column lists peaks' score.}
+  \item{file}{File name with path where the final matrix will deposit. If it is null the final matrix will be returned from the function.}
+  \item{transcriptDB}{Platform table name with path saved in the local matchine.}
+  \item{distanceRange}{Chip.seq peaks found within distances from Transcription Start Site.}
+}
+\details{
+  This function is intended to search all peaks within up and down distances for each gene.
+}
+\value{
+  This function returns a matrix in which the first column contains the RefSeqID, the second column contains Entrez ID , the third column contains chromosome ID, the fourth column contains the absolute distance from each peak to transcription start site and the fifth column contains chip-seq score. 
+}
+\references{ Publication forthcoming. }
+\author{Zhen Hu }
+\seealso{}
+\examples{
+data(nMyc)
+RefTable<-createRefGenome("mm8_refGene",genome.id = "mm8", tablename = "refGene")
+ChipSeq<-annotateChipSeqPeaks(n.Myc,transcriptDB="mm8_refGene.sqlite",species="Mm",distanceRange=c(-1e+06,1e+06),file=NULL)
+res<-chipSeqWeightedSum(ChipSeq,verbose=T)
+
+}
+\keyword{ chip-seq }
+
