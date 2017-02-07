@@ -1,5 +1,4 @@
-`LRpath` <-
-function(sigvals, geneids, min.g=10, max.g=NA, sig.cutoff=0.05,
+`LRpath` <-function(sigvals, geneids, min.g=10, max.g=NA, sig.cutoff=0.05,
 functionalCategories=NULL, odds.min.max=c(0.001,0.5), species="Hs") {
 
 ## prepare database/functionalCategories, etc.
@@ -16,9 +15,9 @@ if (is.null(functionalCategories)) {
 	functionalCategories <- "GO"
 }
 if(!is.list(functionalCategories)) functionalCategories <- as.list(unique(functionalCategories))
-if fuctionalCategories %in% unique(c(names(getFunctionalCategories(CLEAN.Hs(), species = "Hs")),
+if (functionalCategories %in% unique(c(names(getFunctionalCategories(CLEAN.Hs(), species = "Hs")),
                                      names(getFunctionalCategories(CLEAN.Mm(), species = "Mm")),
-                                     names(getFunctionalCategories(CLEAN.Rn(), species = "Rn")))){
+                                     names(getFunctionalCategories(CLEAN.Rn(), species = "Rn"))))){
 CategoryID2GeneID <- list()
 CategoryID2Desc <- list()
 runLRpath <- rep(TRUE, length(functionalCategories))
@@ -174,9 +173,8 @@ if(any(runLRpath)) {
 		}
 	}
 }
-if(length(LRresults) == 1 & legacy) LRresults <- LRresults[[1]]
+LRresults <- LRresults[[1]]
 invisible(LRresults)
-}
 } else {
   xx <- functionalCategories
   ENTREZ.in.DB <- unique(unlist(xx))
