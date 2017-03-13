@@ -1,7 +1,7 @@
 Package: CLEAN
 Type: Package
 Title: Clustering Enrichment Analysis
-Version: 1.3.1
+Version: 1.3.2
 Date: 2010-12-10
 Author: Johannes Freudenberg, Zhen Hu, Xiangdong Liu, Mario Medvedovic
 Maintainer: Mario Medvedovic <medvedmm@ucmail.uc.edu>
