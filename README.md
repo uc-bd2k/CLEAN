@@ -8,11 +8,11 @@ packageVersion("devtools")
 [1] ‘1.12.0’
 
 #Companion data packages
-devtools::install_git("uc-bd2k/CLEAN.Hs")
-devtools::install_git("uc-bd2k/CLEAN.Mm")
-devtools::install_git("uc-bd2k/CLEAN.Rn")
+devtools::install_github("uc-bd2k/CLEAN.Hs")
+devtools::install_github("uc-bd2k/CLEAN.Mm")
+devtools::install_github("uc-bd2k/CLEAN.Rn")
 
 #Main package
-devtools::install_git("uc-bd2k/CLEAN")
+devtools::install_github("uc-bd2k/CLEAN")
 
 ```
