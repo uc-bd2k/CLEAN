@@ -9,5 +9,6 @@ function(lib, pkg)
         cfpath<-paste(cpath, "/CLEAN/doc/", sep="")
         if(file.exists(paste(cfpath,"LFTreeView.jar", sep="")) | file.exists(paste(cfpath,"TreeView.jar", sep="")))
             assign(".fTreeViewPath",cfpath,envir=sys.frame())
+    }
 }
 
