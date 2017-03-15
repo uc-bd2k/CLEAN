@@ -49,6 +49,6 @@ function(categoryIDs, geneList, funcCategories = NULL, species = NULL) {
 		enrichedGenes[i,match(genesInCategories[[i]], geneList)] <- TRUE
 	}
 	colnames(enrichedGenes) <- geneList
-	cbind(CategoryID2Desc[match(categoryIDs, CategoryID2Desc[,1]),], enrichedGenes)
+	data.frame(CategoryID2Desc[match(categoryIDs, CategoryID2Desc[,1]),], enrichedGenes,stringsAsFactors = F)
 }
 
