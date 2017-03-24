@@ -92,9 +92,9 @@ function(genes, refCategories, lean=TRUE, verbose = TRUE){
 		oPvalues<-order(FisherPValues)
 		CategoriesWithAllGenes<-refCategories$CategoriesWithGenes[CategoriesWithGenes]
 		if(lean) list(categories=data.frame(list(ID=CategoriesWithGenes[oPvalues],list(FisherPValue=unlist(FisherPValues[oPvalues]),FisherFDR=FisherFDR[oPvalues],
-			nGenesInCategory=nGenesInCategories[oPvalues],nAllGenesInCategory=nGenesInCategoriesAll[oPvalues],logOR=logOR[oPvalues]))))
+			nGenesInCategory=nGenesInCategories[oPvalues],nAllGenesInCategory=nGenesInCategoriesAll[oPvalues],logOR=logOR[oPvalues])),stringsAsFactors=F))
 		else list(categories=data.frame(list(ID=CategoriesWithGenes[oPvalues],list(FisherPValue=unlist(FisherPValues[oPvalues]),FisherFDR=FisherFDR[oPvalues],
-			nGenesInCategory=nGenesInCategories[oPvalues],nAllGenesInCategory=nGenesInCategoriesAll[oPvalues],logOR=logOR[oPvalues]))),
+			nGenesInCategory=nGenesInCategories[oPvalues],nAllGenesInCategory=nGenesInCategoriesAll[oPvalues],logOR=logOR[oPvalues])),stringsAsFactors=F),
 			geneNumbers=list(nGenes=nGenes,nAllGenes=nAllGenes),genes=genes,allGenes=allGenes,CategoriesWithAllGenes=CategoriesWithAllGenes)
 	}
 	else NULL

@@ -46,7 +46,7 @@ function(geneList,
 		else CategoryID2Desc <- NA
 	}
 	categories <- as.data.frame(geneSigInList(geneList=geneList, allGenes=allGenes, CategoryID2GeneID=CategoryID2GeneID,  
-		minGenesInCategory=minGenesInCategory, maxGenesInCategory=maxGenesInCategory, verbose=verbose, inBkg=inBkg, sigFDR = sigFDR))
-	cbind(categories[,1], Description = CategoryID2Desc[match(categories[,1], CategoryID2Desc[,1]),2], categories[,-1])
+		minGenesInCategory=minGenesInCategory, maxGenesInCategory=maxGenesInCategory, verbose=verbose, inBkg=inBkg, sigFDR = sigFDR),stringsAsFactors=F)
+	data.frame(categories[,1], Description = CategoryID2Desc[match(categories[,1], CategoryID2Desc[,1]),2], categories[,-1],stringsAsFactors=F)
 }
 
