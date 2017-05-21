@@ -43,7 +43,11 @@ function(categoryIDs, geneList, funcCategories = NULL, species = NULL) {
 			CategoryID2Desc <- funcCategories[[2]]
 		else CategoryID2Desc <- list(NA)
 	}
-	genesInCategories <- sapply(categoryIDs, function(id) intersect(CategoryID2GeneID[[as.character(id)]], geneList))
+	if(length(categoryIDs)>1){
+	  genesInCategories <- sapply(categoryIDs, function(id) intersect(CategoryID2GeneID[[as.character(id)]], geneList))
+	} else {
+	  genesInCategories=list(intersect(CategoryID2GeneID[[as.character(categoryIDs)]], geneList))
+	}
 	enrichedGenes <- matrix(rep(FALSE, length(geneList)*length(categoryIDs)), length(categoryIDs))
 	for(i in 1:length(genesInCategories)) {
 		enrichedGenes[i,match(genesInCategories[[i]], geneList)] <- TRUE
