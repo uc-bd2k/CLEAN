@@ -89,11 +89,13 @@ function(genes, refCategories, lean=TRUE, verbose = TRUE){
 		FisherFDR<-FisherPValues[pOrder]*nMinMaxCategories/(1:nPs)
 		for(i in 1:nPs) FisherFDR[i]<-min(FisherFDR[i:nPs],1)
 		FisherFDR<-FisherFDR[pOriginal]
+		FishBonf=FisherPValues*nMinMaxCategories
+		FisherBonf=ifelse(FishBonf<1,FishBonf,1)
 		oPvalues<-order(FisherPValues)
 		CategoriesWithAllGenes<-refCategories$CategoriesWithGenes[CategoriesWithGenes]
-		if(lean) list(categories=data.frame(list(ID=CategoriesWithGenes[oPvalues],list(FisherPValue=unlist(FisherPValues[oPvalues]),FisherFDR=FisherFDR[oPvalues],
+		if(lean) list(categories=data.frame(list(ID=CategoriesWithGenes[oPvalues],list(FisherPValue=unlist(FisherPValues[oPvalues]),FisherFDR=FisherFDR[oPvalues],FisherBonf=FisherBonf[oPvalues],
 			nGenesInCategory=nGenesInCategories[oPvalues],nAllGenesInCategory=nGenesInCategoriesAll[oPvalues],logOR=logOR[oPvalues])),stringsAsFactors=F))
-		else list(categories=data.frame(list(ID=CategoriesWithGenes[oPvalues],list(FisherPValue=unlist(FisherPValues[oPvalues]),FisherFDR=FisherFDR[oPvalues],
+		else list(categories=data.frame(list(ID=CategoriesWithGenes[oPvalues],list(FisherPValue=unlist(FisherPValues[oPvalues]),FisherFDR=FisherFDR[oPvalues],FisherBonf=FisherBonf[oPvalues],
 			nGenesInCategory=nGenesInCategories[oPvalues],nAllGenesInCategory=nGenesInCategoriesAll[oPvalues],logOR=logOR[oPvalues])),stringsAsFactors=F),
 			geneNumbers=list(nGenes=nGenes,nAllGenes=nAllGenes),genes=genes,allGenes=allGenes,CategoriesWithAllGenes=CategoriesWithAllGenes)
 	}
