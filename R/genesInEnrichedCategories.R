@@ -49,10 +49,17 @@ function(categoryIDs, geneList, funcCategories = NULL, species = NULL) {
 	  genesInCategories=list(intersect(CategoryID2GeneID[[as.character(categoryIDs)]], geneList))
 	}
 	enrichedGenes <- matrix(rep(FALSE, length(geneList)*length(categoryIDs)), length(categoryIDs))
+	print(dim(enrichedGenes))
+	print(length(genesInCategories))
 	for(i in 1:length(genesInCategories)) {
 		enrichedGenes[i,match(genesInCategories[[i]], geneList)] <- TRUE
 	}
 	colnames(enrichedGenes) <- geneList
-	data.frame(CategoryID2Desc[match(categoryIDs, CategoryID2Desc[,1]),], enrichedGenes,stringsAsFactors = F)
+	if(length(categoryIDs)>1){
+	  data.frame(CategoryID2Desc[match(categoryIDs, CategoryID2Desc[,1]),], enrichedGenes,stringsAsFactors = F)
+	} else {
+	   data.frame(CategoryID2Desc[match(c(categoryIDs,categoryIDs), CategoryID2Desc[,1]),], enrichedGenes,stringsAsFactors = F)[1,]
+	}
+	
 }
 
