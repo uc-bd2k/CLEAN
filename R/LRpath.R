@@ -14,15 +14,14 @@ if (is.null(functionalCategories)) {
   warning("functionalCategories is NULL, use `GO` as default.")
 	functionalCategories <- "GO"
 }
-if(!is.list(functionalCategories)) functionalCategories <- as.list(unique(functionalCategories))
-if (functionalCategories %in% unique(c(names(getFunctionalCategories(CLEAN.Hs(), species = "Hs")),
-                                     names(getFunctionalCategories(CLEAN.Mm(), species = "Mm")),
-                                     names(getFunctionalCategories(CLEAN.Rn(), species = "Rn"))))){
+if(!is.list(functionalCategories)) functionalCategories <- as.list(unique(functionalCategories))\
 CategoryID2GeneID <- list()
 CategoryID2Desc <- list()
 runLRpath <- rep(TRUE, length(functionalCategories))
 for(i in 1:length(functionalCategories)) {
-	if(is.character(functionalCategories[[i]])) {
+    if (functionalCategories %in% unique(c(names(getFunctionalCategories(CLEAN.Hs(), species = "Hs")),
+                                           names(getFunctionalCategories(CLEAN.Mm(), species = "Mm")),
+                                           names(getFunctionalCategories(CLEAN.Rn(), species = "Rn"))))) {
 	    if(substr(functionalCategories[[i]],nchar(functionalCategories[[i]])-4,nchar(functionalCategories[[i]])) == "RData") {
 		    e1 <- new.env()
 			load(file = functionalCategories[[i]], envir = e1)
@@ -61,18 +60,24 @@ for(i in 1:length(functionalCategories)) {
 				warning(paste("functional categories", functionalCategories[[i]], "not found.  No functional clustering annotation generated."))
 			}
 		}
-	} else {   #functionalCategories[[i]] is a list
-		l <- functionalCategories[[i]][1]
-		names(l) <- names(functionalCategories)[i]
-		CategoryID2GeneID <- c(CategoryID2GeneID, l)
-		if(length(functionalCategories[[i]]) > 1) {
-		    l <- functionalCategories[[i]][2]
-			names(l) <- names(functionalCategories)[i]
-			CategoryID2Desc <- c(CategoryID2Desc, l)
-		} 
-		else CategoryID2Desc <- c(CategoryID2Desc, list(NA))
-	}
-} 
+    } else { #functionalCategories is a list
+        l1 <- functionalCategories[i]
+        if(length(l1) > 0) {
+            l <- l1[[1]][1]
+            names(l) <- names(functionalCategories[i])
+            CategoryID2GeneID <- c(CategoryID2GeneID, l)
+            if(length(l1[[1]]) > 1) {
+                l <- l1[[1]][2]
+                names(l) <- names(functionalCategories[i])
+                CategoryID2Desc <- c(CategoryID2Desc, l)
+            } else CategoryID2Desc <- c(CategoryID2Desc, list(NA))
+        } else {
+            runLRpath[i] <- FALSE
+            CategoryID2GeneID <- c(CategoryID2GeneID, list(NA))
+            CategoryID2Desc <- c(CategoryID2Desc, list(NA))
+            warning(paste("functional categories", functionalCategories[[i]], "not found.  No functional clustering annotation generated."))
+        }
+    }
 ## run LRpath
 if(any(runLRpath)) {
 	LRresults <- list()
@@ -173,85 +178,7 @@ if(any(runLRpath)) {
 		}
 	}
 }
+}
 LRresults <- LRresults[[1]]
 invisible(LRresults)
-} else {
-  xx <- functionalCategories
-  ENTREZ.in.DB <- unique(unlist(xx))
-  if (length(intersect(ENTREZ.in.DB, unique(geneids))) < min.g) 
-    warning(paste("min.g=", min.g, " is larger than number of gene IDs overlapping with ", 
-                  names(CategoryID2GeneID)[ii], ". Please consider lower min.g.", 
-                  sep = ""))
-  sigvals[sigvals == 0] <- 10^(-15)
-  geneids2 <- geneids[!is.na(geneids) & !is.na(sigvals) ]
-  sigvals2 <- sigvals[!is.na(geneids) & !is.na(sigvals) ]
-  uniqids <- unique(geneids2)
-  numuniq <- length(uniqids)
-  LOR.mult <- log(odds.min.max[2]) - log(odds.min.max[1])
-  nlp <- (-1) * log(sigvals2)
-  newp <- NA
-  for (i in (1:numuniq)) {
-    current <- nlp[geneids2 == uniqids[i]]
-    newp[i] <- mean(current)
-  }
-  catsizes <- sapply(xx, length)
-  yy <- xx[catsizes >= min.g]
-  ncats <- length(yy)
-  siggenes <- uniqids[exp(-newp) < sig.cutoff]
-  LRcoeff <- NA
-  LRpval <- NA
-  cattots <- NA
-  catsigIDs <- NA
-  ind <- 0
-  if (is.na(max.g)) {
-    max.g <- 99999
-  }
-  for (i in (1:ncats)) {
-    catgenes <- as.character(yy[[i]])
-    catgenes <- unique(catgenes)
-    catpoprows <- match(catgenes, uniqids)
-    catpoprows <- catpoprows[!is.na(catpoprows)]
-    cattot <- length(catpoprows)
-    if (cattot >= min.g & cattot <= max.g) {
-      ind <- ind + 1
-      cat <- rep(0, numuniq)
-      cat[catpoprows] <- 1
-      forLR <- as.data.frame(cbind(cat, newp))
-      names(forLR) <- c("cat", "nlogp")
-      withCallingHandlers(glm.lrGO <- glm(cat ~ 
-                                            nlogp, family = binomial(link = "logit"), 
-                                          forLR), warning = function(w) {
-                                            if (length(grep("fitted probabilities numerically 0 or 1 occurred", 
-                                                            as.character(w))) == 1) 
-                                              warning("fitted probabilities numerically 0 or 1 occurred: functional category appears to induce linear separation of p-values.")
-                                          })
-      lrGO <- summary(glm.lrGO)
-      LRcoeff[ind] <- lrGO$coefficients["nlogp", 
-                                        "Estimate"]
-      LRpval[ind] <- lrGO$coefficients["nlogp", 
-                                       "Pr(>|z|)"]
-      cattots[ind] <- cattot
-      catsig.IDlist <- intersect(siggenes, catgenes)
-      catsigIDs[ind] <- paste(catsig.IDlist[order(catsig.IDlist)], 
-                              collapse = ", ")
-    }
-    if (i%%100 == 0) {
-      cat(".")
-    }
-  }
-  cat("\n")
-  odds.ratio <- exp(LOR.mult * LRcoeff)
-  BenjFDR <- p.adjust(LRpval, "BH")
-  LRres <- cbind(cattots, 
-                 LRcoeff, odds.ratio, as.data.frame(LRpval), 
-                 BenjFDR, catsigIDs)
-  names(LRres) <- c(
-    "n.genes", "coeff", "odds.ratio", "p.value", 
-    "FDR", "sig.genes")
-  LRresults <-  list(LRres)
-  names(LRresults)[length(LRresults)] <- names(functionalCategories)
-  LRresults <- LRresults[[1]]
-  invisible(LRresults)
-}
-  }#End function LRpath
-
+}#end LRpath function
