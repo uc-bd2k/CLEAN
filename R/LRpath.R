@@ -14,7 +14,7 @@ if (is.null(functionalCategories)) {
   warning("functionalCategories is NULL, use `GO` as default.")
 	functionalCategories <- "GO"
 }
-if(!is.list(functionalCategories)) functionalCategories <- as.list(unique(functionalCategories))\
+if(!is.list(functionalCategories)) functionalCategories <- as.list(unique(functionalCategories))
 CategoryID2GeneID <- list()
 CategoryID2Desc <- list()
 runLRpath <- rep(TRUE, length(functionalCategories))
@@ -61,14 +61,14 @@ for(i in 1:length(functionalCategories)) {
 			}
 		}
     } else { #functionalCategories is a list
-        l1 <- functionalCategories[i]
+        l1 <- get(functionalCategories[[i]])
         if(length(l1) > 0) {
             l <- l1[[1]][1]
-            names(l) <- names(functionalCategories[i])
+            names(l) <- functionalCategories[[i]]
             CategoryID2GeneID <- c(CategoryID2GeneID, l)
             if(length(l1[[1]]) > 1) {
                 l <- l1[[1]][2]
-                names(l) <- names(functionalCategories[i])
+                names(l) <- functionalCategories[[i]]
                 CategoryID2Desc <- c(CategoryID2Desc, l)
             } else CategoryID2Desc <- c(CategoryID2Desc, list(NA))
         } else {
