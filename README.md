@@ -1,5 +1,7 @@
 # CLEAN
 
+The CLEAN R package contains functions to compute the R functions to perform the Clustering Enrichment Analysis.
+
 Installation:
 
 ```{r}
