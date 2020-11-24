@@ -1,12 +1,12 @@
 Package: CLEAN
 Type: Package
 Title: Clustering Enrichment Analysis
-Version: 1.3.2
-Date: 2010-12-10
+Version: 1.3.3
+Date: 2020-11-24
 Author: Johannes Freudenberg, Zhen Hu, Xiangdong Liu, Mario Medvedovic
 Maintainer: Mario Medvedovic <medvedmm@ucmail.uc.edu>
 Description: Given an hierarchical gene clustering and a list of functional categories, this package performs functional enrichment analysis of all possible clusters and generates files to simultaneously display gene expression data, gene clustering, sample clustering, and functional annotation of gene clustering.
 License: GPL (>= 2)
 LazyLoad: yes
-Suggests: AnnotationDbi, GO.db, KEGG.db, stats
-Packaged: 2013-6-14; Mario
+Suggests: AnnotationDbi, stats
+Packaged: 2020-11-24; Mario
