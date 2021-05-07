@@ -47,6 +47,11 @@ function(geneList,
 	}
 	categories <- as.data.frame(geneSigInList(geneList=geneList, allGenes=allGenes, CategoryID2GeneID=CategoryID2GeneID,  
 		minGenesInCategory=minGenesInCategory, maxGenesInCategory=maxGenesInCategory, verbose=verbose, inBkg=inBkg, sigFDR = sigFDR),stringsAsFactors=F)
-	data.frame(categories[,1], Description = CategoryID2Desc[match(categories[,1], CategoryID2Desc[,1]),2], categories[,-1],stringsAsFactors=F)
+	if (nrow(categories)>0) {
+	  res <- data.frame(categories[,1], Description = CategoryID2Desc[match(categories[,1], CategoryID2Desc[,1]),2], categories[,-1],stringsAsFactors=F)
+	  return(res)
+	} else {
+	  return(NULL)
+	}  
 }
 
