@@ -1,5 +1,5 @@
 'enrichmentGSEA'<-
-  function(sigvals,geneids,diffexp=NULL, functionalCategories=c("KEGG","GO","tfacts","dorotheatfs","hallmark"), directions=c("up","down","both"),species="Hs", excel=F,sigFDR=0.1,nperm=100000){
+  function(sigvals,geneids,diffexp=NULL, functionalCategories=c("KEGG","GO","tfacts","dorotheatfs","hallmark"), directions=c("up","down","both"),species="Hs", excel=F,sigFDR=0.1,nperm=100000,minSize=5,maxSize=1500){
   require(CLEAN);require(CLEAN.Hs);require(fgsea)
   if(is.list(functionalCategories)) gs<-functionalCategories
   else gs<-getFunctionalCategories(functionalCategories,species)
@@ -16,7 +16,7 @@
       stats=sort(stats)
     }
     fgseaRes <- lapply(gs, function(x){
-      fgseaOut<-fgsea(pathways = x[[1]],stats = stats, minSize=15, maxSize=500, nperm=nperm)
+      fgseaOut<-fgsea(pathways = x[[1]],stats = stats, minSize=minSize, maxSize=maxSize, nperm=nperm)
       fgseaOut<-data.frame(ID=fgseaOut$pathway,Name=x[[2]][match(fgseaOut$pathway,x[[2]][,1]),2],fgseaOut[,-1],stringsAsFactors = F)
       fgseaOut[order(fgseaOut$pval),]
     })
@@ -29,7 +29,7 @@
     names(stats)<-geneids
     stats=sort(stats)
     fgseaRes <- lapply(gs, function(x){
-      fgseaOut<-fgsea(pathways = x[[1]],stats = stats, minSize=15, maxSize=500, nperm=nperm)
+      fgseaOut<-fgsea(pathways = x[[1]],stats = stats, minSize=minSize, maxSize=maxSize, nperm=nperm)
       fgseaOut<-data.frame(ID=fgseaOut$pathway,Name=x[[2]][match(fgseaOut$pathway,x[[2]][,1]),2],fgseaOut[,-1],stringsAsFactors = F)
       fgseaOut[order(fgseaOut$pval),]
     })
@@ -42,7 +42,7 @@
     names(stats)<-geneids
     stats=sort(stats)
     fgseaRes <- lapply(gs, function(x){
-      fgseaOut<-fgsea(pathways = x[[1]],stats = stats, minSize=15, maxSize=500, nperm=nperm)
+      fgseaOut<-fgsea(pathways = x[[1]],stats = stats, minSize=minSize, maxSize=maxSize, nperm=nperm)
       fgseaOut<-data.frame(ID=fgseaOut$pathway,Name=x[[2]][match(fgseaOut$pathway,x[[2]][,1]),2],fgseaOut[,-1],stringsAsFactors = F)
       fgseaOut[order(fgseaOut$pval),]
     })
