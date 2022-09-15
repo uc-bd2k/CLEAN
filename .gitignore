@@ -1,2 +1,6 @@
 .DS_store
 */DS_store
+.Rproj.user
+.Rbuildignore
+.Rhistory
+CLEAN.Rproj
